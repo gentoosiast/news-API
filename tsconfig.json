@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "strict": true,
     "noImplicitAny": true,
     "module": "es2022",
@@ -9,5 +10,5 @@
     "allowJs": true,
     "outDir": "./dist"
   },
-  "files": ["src/index.ts"]
+  "include": ["**/*.ts"]
 }

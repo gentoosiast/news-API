@@ -1,17 +1,20 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import type Webpack from 'webpack';
+import 'webpack-dev-server';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 const isProduction = process.env.NODE_ENV == 'production';
 
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
-const config = {
+const projectDirname = path.dirname(fileURLToPath(import.meta.url));
+
+const config: Webpack.Configuration = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(projectDirname, 'dist'),
   },
   devServer: {
     open: true,
@@ -19,7 +22,7 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'src', 'index.html'),
+      template: path.resolve(projectDirname, 'src', 'index.html'),
       filename: 'index.html',
     }),
 
@@ -28,6 +31,12 @@ const config = {
   ],
   module: {
     rules: [
+      {
+        test: /\.m?js$/i,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
       {
         test: /\.(ts|tsx)$/i,
         loader: 'ts-loader',
@@ -51,13 +60,13 @@ const config = {
   },
 };
 
-module.exports = () => {
-  if (isProduction) {
-    config.mode = 'production';
-
+if (isProduction) {
+  config.mode = 'production';
+  if (Array.isArray(config.plugins)) {
     config.plugins.push(new MiniCssExtractPlugin());
-  } else {
-    config.mode = 'development';
   }
-  return config;
-};
+} else {
+  config.mode = 'development';
+}
+
+export default config;
