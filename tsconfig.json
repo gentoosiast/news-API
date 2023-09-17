@@ -4,6 +4,7 @@
     "strict": true,
     "noImplicitAny": true,
     "module": "es2022",
+    "moduleResolution": "bundler",
     "target": "es6",
     "allowJs": true,
     "outDir": "./dist"
