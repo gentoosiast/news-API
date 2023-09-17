@@ -4,6 +4,7 @@ import type Webpack from 'webpack';
 import 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TSConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -57,6 +58,7 @@ const config: Webpack.Configuration = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
+    plugins: [new TSConfigPathsPlugin()],
   },
 };
 
