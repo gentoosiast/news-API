@@ -6,7 +6,7 @@ class AppController extends AppLoader {
       {
         endpoint: 'sources',
       },
-      callback
+      callback,
     );
   }
 
@@ -26,7 +26,7 @@ class AppController extends AppLoader {
                 sources: sourceId,
               },
             },
-            callback
+            callback,
           );
         }
         return;
