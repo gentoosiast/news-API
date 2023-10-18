@@ -21,6 +21,7 @@
   "rules": {
     "curly": ["error", "all"],
     "max-lines-per-function": ["error", 40],
+    "@typescript-eslint/no-inferrable-types": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/explicit-member-accessibility": [
       "error",
