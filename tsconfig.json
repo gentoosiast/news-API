@@ -8,7 +8,7 @@
     "moduleResolution": "bundler",
     "target": "es6",
     "allowJs": true,
-    "outDir": "./dist"
+    "noEmit": true
   },
   "include": ["**/*.ts"]
 }
