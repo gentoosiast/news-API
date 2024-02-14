@@ -5,6 +5,7 @@ import 'webpack-dev-server';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TSConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import Dotenv from 'dotenv-webpack';
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -26,9 +27,7 @@ const config: Webpack.Configuration = {
       template: path.resolve(projectDirname, 'src', 'index.html'),
       filename: 'index.html',
     }),
-
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new Dotenv(),
   ],
   module: {
     rules: [

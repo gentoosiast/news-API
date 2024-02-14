@@ -20,10 +20,12 @@
   "author": "Aleh Serhiyenia",
   "license": "ISC",
   "devDependencies": {
+    "@types/dotenv-webpack": "^7.0.7",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
     "@webpack-cli/generators": "^3.0.4",
     "css-loader": "^6.8.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.5.5",
