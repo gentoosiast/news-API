@@ -11,7 +11,8 @@
     "build:prod": "tsx node_modules/webpack/bin/webpack --mode=production --node-env=production",
     "deploy": "npm run build && npx gh-pages -d dist -e news-api",
     "format": "npx prettier --write .",
-    "lint": "npx eslint --fix ./src",
+    "lint": "npx eslint ./src",
+    "lint:fix": "npx eslint --fix ./src",
     "watch": "tsx node_modules/webpack/bin/webpack --watch",
     "start": "tsx node_modules/webpack/bin/webpack serve"
   },
