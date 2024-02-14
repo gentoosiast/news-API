@@ -13,6 +13,7 @@
     "format": "npx prettier --write .",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint --fix ./src",
+    "typecheck": "tsc",
     "watch": "tsx node_modules/webpack/bin/webpack --watch",
     "start": "tsx node_modules/webpack/bin/webpack serve"
   },
