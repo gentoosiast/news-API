@@ -1,14 +1,34 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "module": "es2022",
-    "moduleResolution": "bundler",
-    "target": "es6",
-    "allowJs": true,
-    "noEmit": true
+    /* Essential defaults */
+    "esModuleInterop": true /* CJS/ESM interop */,
+    "skipLibCheck": true /* Do not check declaration files in node_modules/ */,
+    "target": "es2022" /* Ignored by Vite bundler https://vitejs.dev/guide/features.html#target */,
+    "allowJs": true /* set to false if migration from JS to TS is not needed */,
+    "verbatimModuleSyntax": true /* Remove every import/export with 'type' modifier during transpilation */,
+    "resolveJsonModule": true /* allow importing JSON files as modules */,
+    "isolatedModules": true /* warns when wriiting code that can’t be correctly interpreted by a single-file transpilation process */,
+    "moduleDetection": "force" /* every non-declaration file is treated as a module */,
+    "useDefineForClassFields": true /* conform to ECMA standard for class field syntax */,
+
+    /* Strictness */
+    "strict": true /* most important option which enables many other strict options */,
+    "noImplicitAny": true /* not needed (auto-enabled when 'strict: true'), but required by RS School */,
+    "noUncheckedIndexedAccess": true /* forbids unsafe indexing of Records and arrays */,
+
+    /* Transpilation performed by bundler */
+    "moduleResolution": "bundler" /* use bundler's module resolution, should be enabled in all Webpack / Vite projects */,
+    "module": "ESNext" /* used module system */,
+    "noEmit": true /* Don't emit outputs, only perform type-checking */,
+
+    /* DOM types for frontend projects */
+    "lib": ["es2022", "dom", "dom.iterable"],
+
+    /* Path aliases */
+    "baseUrl": "",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["**/*.ts"]
 }
