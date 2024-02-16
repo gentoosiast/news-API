@@ -7,15 +7,15 @@
   "private": true,
   "scripts": {
     "build": "tsx node_modules/webpack/bin/webpack --mode=production --node-env=production",
-    "build:dev": "tsx node_modules/webpack/bin/webpack --mode=development",
+    "build:dev": "tsx node_modules/webpack/bin/webpack --mode=development --node-env=development",
     "build:prod": "tsx node_modules/webpack/bin/webpack --mode=production --node-env=production",
     "deploy": "npm run build && npx gh-pages -d dist -e news-api",
     "format": "npx prettier --write .",
     "lint": "npx eslint ./src",
     "lint:fix": "npx eslint --fix ./src",
     "typecheck": "tsc",
-    "watch": "tsx node_modules/webpack/bin/webpack --watch",
-    "start": "tsx node_modules/webpack/bin/webpack serve"
+    "watch": "tsx node_modules/webpack/bin/webpack --mode=development --node-env=development --watch",
+    "start": "tsx node_modules/webpack/bin/webpack serve --mode=development --node-env=development"
   },
   "keywords": [],
   "author": "Aleh Serhiyenia",
