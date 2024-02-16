@@ -19,6 +19,9 @@
   },
   "keywords": [],
   "author": "Aleh Serhiyenia",
+  "contributors": [
+    "Sergey Koksharov <gentoosiastic@gmail.com>"
+  ],
   "license": "ISC",
   "devDependencies": {
     "@types/dotenv-webpack": "^7.0.7",
