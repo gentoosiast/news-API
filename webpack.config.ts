@@ -1,73 +1,60 @@
+import type { Configuration } from 'webpack';
+import type { WebpackConfig, WebpackBuildMode } from '@/config/webpack/types';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type Webpack from 'webpack';
-import 'webpack-dev-server';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import TSConfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import Dotenv from 'dotenv-webpack';
+import { buildLoaders } from '@/config/webpack/buildLoaders';
+import { buildPlugins } from '@/config/webpack/buildPlugins';
+import { buildResolvers } from '@/config/webpack/buildResolvers';
+import { buildOptimization } from '@/config/webpack/buildOptimization';
+import { buildDevServer } from '@/config/webpack/buildDevServer';
 
-const isProduction = process.env.NODE_ENV == 'production';
+const DEFAULT_DEV_SERVER_PORT = 8080;
 
-const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
+const TRANSPILATION_TARGET = 'es2015';
 
 const projectDirname = path.dirname(fileURLToPath(import.meta.url));
 
-const config: Webpack.Configuration = {
-  entry: './src/index.js',
-  output: {
-    path: path.resolve(projectDirname, 'dist'),
-  },
-  devServer: {
-    open: true,
-    hot: false,
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(projectDirname, 'src', 'index.html'),
-      filename: 'index.html',
-    }),
-    new Dotenv(),
-  ],
-  module: {
-    rules: [
-      {
-        test: /\.m?js$/i,
-        resolve: {
-          fullySpecified: false,
-        },
-      },
-      {
-        test: /\.(ts|tsx)$/i,
-        loader: 'ts-loader',
-        exclude: ['/node_modules/'],
-      },
-      {
-        test: /\.css$/i,
-        use: [stylesHandler, 'css-loader'],
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: 'asset',
-      },
-
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
-    ],
-  },
-  resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '...'],
-    plugins: [new TSConfigPathsPlugin()],
-  },
+const getConfig = (mode: WebpackBuildMode, port: number): WebpackConfig => {
+  return {
+    mode,
+    transpilationTarget: TRANSPILATION_TARGET,
+    devServerPort: port,
+    paths: {
+      faviconPath: path.join(projectDirname, 'src', 'assets', 'favicon.svg'),
+      templatePath: path.join(projectDirname, 'src', 'index.html'),
+      tsConfigPath: path.join(projectDirname, 'tsconfig.json'),
+    },
+  };
 };
 
-if (isProduction) {
-  config.mode = 'production';
-  if (Array.isArray(config.plugins)) {
-    config.plugins.push(new MiniCssExtractPlugin());
-  }
-} else {
-  config.mode = 'development';
-}
+export default (env: Record<string, string | boolean>, argv: Record<string, string>): Configuration => {
+  const mode = argv.mode === 'development' ? 'development' : 'production';
+  const devServerPort = Number(env.PORT ?? DEFAULT_DEV_SERVER_PORT);
+  const isDev = mode === 'development';
+  const isProd = !isDev;
 
-export default config;
+  const config = getConfig(mode, devServerPort);
+
+  const webpackConfig: Configuration = {
+    mode: config.mode,
+    context: path.join(projectDirname, 'src'),
+    entry: { bundle: './index.js' },
+    output: {
+      filename: '[name]-[contenthash].js',
+      clean: true,
+    },
+    devtool: isDev && 'eval-cheap-module-source-map',
+    plugins: buildPlugins(config),
+    module: {
+      rules: buildLoaders(config),
+    },
+    resolve: buildResolvers(),
+    devServer: buildDevServer(config),
+  };
+
+  if (isProd) {
+    webpackConfig.optimization = buildOptimization(config);
+  }
+
+  return webpackConfig;
+};
